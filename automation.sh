@@ -31,4 +31,23 @@ size=$(ls -Arthl | tail -n 1 |cut -d " " -f 6)
 aws s3 \
 cp /tmp/${myname}-httpd-logs-${timestamp}.tar \
 s3://${s3_bucket}/${myname}-httpd-logs-${timestamp}.tar
+if [[ ! -f "/var/www/html/inventory.html" ]]
+then
+        echo "Creating inventory.html at /var/www/html"
+        cd /var/www/html
+        echo -e "<br>&ensp;LogType&ensp;&ensp;&ensp;DateCreated&ensp;&ensp;&ensp;&ensp;&ensp;Type&ensp;&ensp;Size<br> " > inventory.html
+fi
+cd /var/www/html
+
+echo -e "<br>&ensp;httpd-logs&ensp;&ensp;$timestamp&ensp;&ensp;$filetype&ensp;&ensp;$size<br>" >> inventory.html
+#cd /tmp
+#rm *.tar
+cd /
+if [[ ! -f "/etc/cron.d/automation" ]]
+then
+        echo "Creating a automation file at cd /etc/cron.d"
+        cd /tmp
+        echo "0 12 */2 * * root cd /Automation_Project && ./automation.sh && cd /" > automation
+        mv automation /etc/cron.d
+fi
 
