@@ -1,6 +1,10 @@
+
+
+
 #!/bin/bash
 
 myname="pranshu"
+#MYNAME IS PRANSHU PALIWAL
 s3_bucket="upgrad-pranshu"
 timestamp=$(date '+%d%m%Y-%H%M%S')
 sudo apt update -y
